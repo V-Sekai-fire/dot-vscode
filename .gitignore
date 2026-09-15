@@ -1,0 +1,13 @@
+# Per-machine and per-person, never shared. The editor writes these as you work — a
+# machine-local compile database path, one desk's SDK locations, an in-flight remote
+# tunnel — and committing them applies one desk's answers to everybody else's.
+.vscode-local/
+*.code-workspace
+.DS_Store
+__pycache__/
+
+# The working agreements arrive at the workspace root as `linkfile` entries from the goal
+# manifest. Nothing links into here today, and these lines keep a future one from showing
+# up as an untracked file in every `repo status` forever.
+CLAUDE.md
+AGENTS.md

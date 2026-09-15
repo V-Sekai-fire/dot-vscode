@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "inputs": [
+    {
+      "id": "editorBinary",
+      "type": "pickString",
+      "description": "Which editor binary to run",
+      "default": "4-entities/godot-oit/bin/godot.windows.editor.x86_64.console.exe",
+      "options": [
+        "4-entities/godot-oit/bin/godot.windows.editor.x86_64.console.exe",
+        "4-entities/godot/bin/godot.windows.editor.x86_64.console.exe",
+        "4-entities/godot-witness/bin/godot.windows.editor.x86_64.console.exe"
+      ]
+    }
+  ],
+  "configurations": [
+    {
+      "name": "godot: editor (project manager)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/${input:editorBinary}",
+      "args": ["--project-manager"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "godot: build"
+    }
+  ]
+}

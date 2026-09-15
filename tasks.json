@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "checkout",
+      "type": "pickString",
+      "description": "Which Godot checkout to build",
+      "default": "4-entities/godot-oit",
+      "options": [
+        "4-entities/godot",
+        "4-entities/godot-cassie",
+        "4-entities/godot-image-diffusion",
+        "4-entities/godot-language-model",
+        "4-entities/godot-motion-bricks",
+        "4-entities/godot-oit",
+        "4-entities/godot-rf-detr",
+        "4-entities/godot-rfd-2251-fire",
+        "4-entities/godot-witness"
+      ]
+    },
+    {
+      "id": "target",
+      "type": "pickString",
+      "description": "scons target",
+      "default": "editor",
+      "options": ["editor", "template_debug", "template_release"]
+    }
+  ],
+  "tasks": [
+    {
+      "label": "godot: install Windows build dependencies",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "command": "pixi run -e build python ${input:checkout}/misc/scripts/install_accesskit.py; pixi run -e build python ${input:checkout}/misc/scripts/install_d3d12_sdk_windows.py",
+      "problemMatcher": []
+    },
+    {
+      "label": "godot: build",
+      "type": "shell",
+      "group": { "kind": "build", "isDefault": true },
+      "options": { "cwd": "${workspaceFolder}" },
+      "windows": {
+        "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } },
+        "command": "call \"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat\" >nul && pixi run -e build scons -C ${input:checkout} target=${input:target} windows_subsystem=console -j%NUMBER_OF_PROCESSORS%"
+      },
+      "linux": {
+        "command": "pixi run -e build scons -C ${input:checkout} target=${input:target} -j$(nproc)"
+      },
+      "osx": {
+        "command": "pixi run -e build scons -C ${input:checkout} target=${input:target} -j$(sysctl -n hw.ncpu)"
+      },
+      "problemMatcher": ["$msCompile", "$gcc"]
+    },
+    {
+      "label": "godot: clean",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "command": "pixi run -e build scons -C ${input:checkout} target=${input:target} --clean",
+      "problemMatcher": []
+    }
+  ]
+}

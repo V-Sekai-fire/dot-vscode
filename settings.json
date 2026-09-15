@@ -1,0 +1,24 @@
+{
+  "files.associations": {
+    "SConstruct": "python",
+    "SCsub": "python",
+    "*.gdshader": "shaderlab",
+    "*.usda": "usda"
+  },
+  "files.exclude": {
+    "**/.repo": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/thirdparty": true,
+    "**/.sconsign.dblite": true,
+    "**/*.obj": true
+  },
+  "files.watcherExclude": {
+    "**/bin/**": true,
+    "**/.repo/**": true,
+    "**/thirdparty/**": true
+  },
+  "C_Cpp.default.cppStandard": "c++17",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/build/python.exe"
+}
