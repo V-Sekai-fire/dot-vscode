@@ -5,11 +5,11 @@
       "id": "editorBinary",
       "type": "pickString",
       "description": "Which editor binary to run",
-      "default": "4-entities/godot-oit/bin/godot.windows.editor.x86_64.console.exe",
+      "default": "4-entities/godot-oit/bin/godot.windows.editor.x86_64.exe",
       "options": [
-        "4-entities/godot-oit/bin/godot.windows.editor.x86_64.console.exe",
-        "4-entities/godot/bin/godot.windows.editor.x86_64.console.exe",
-        "4-entities/godot-witness/bin/godot.windows.editor.x86_64.console.exe"
+        "4-entities/godot-oit/bin/godot.windows.editor.x86_64.exe",
+        "4-entities/godot/bin/godot.windows.editor.x86_64.exe",
+        "4-entities/godot-witness/bin/godot.windows.editor.x86_64.exe"
       ]
     }
   ],
