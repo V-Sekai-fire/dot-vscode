@@ -20,5 +20,6 @@
     "**/thirdparty/**": true
   },
   "C_Cpp.default.cppStandard": "c++17",
-  "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/build/python.exe"
+  "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/build/python.exe",
+  "git.ignoreLimitWarning": true
 }
