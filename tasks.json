@@ -5,18 +5,17 @@
       "id": "checkout",
       "type": "pickString",
       "description": "Which Godot checkout to build",
-      "default": "4-entities/godot-oit",
+      "default": "4-entities/godot",
       "options": [
         "4-entities/godot",
-        "4-entities/godot-cassie",
-        "4-entities/godot-image-diffusion",
-        "4-entities/godot-language-model",
-        "4-entities/godot-motion-bricks",
-        "4-entities/godot-oit",
-        "4-entities/godot-rf-detr",
-        "4-entities/godot-rfd-2251-fire",
-        "4-entities/godot-witness"
       ]
+    },
+    {
+      "id": "precision",
+      "type": "pickString",
+      "description": "Build precision",
+      "default": "double",
+      "options": ["single", "double"]
     },
     {
       "id": "target",
@@ -30,18 +29,48 @@
     {
       "label": "godot: install Windows build dependencies",
       "type": "shell",
-      "options": { "cwd": "${workspaceFolder}" },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "command": "pixi run -e build python ${input:checkout}/misc/scripts/install_accesskit.py; pixi run -e build python ${input:checkout}/misc/scripts/install_d3d12_sdk_windows.py",
       "problemMatcher": []
     },
     {
-      "label": "godot: build",
+      "label": "godot: build win64 (cross)",
       "type": "shell",
-      "group": { "kind": "build", "isDefault": true },
-      "options": { "cwd": "${workspaceFolder}" },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}",
+      },
+      "command": "pixi run -e build scons -C ${input:checkout} CXX=${workspaceFolder}/.pixi/envs/build/bin/clang++ use_llvm=yes use_mingw=yes arch=x86_64 precision=${input:precision} target=${input:target} cache_path=/Users/ernest.lee/.cache/scons_cache -j$(sysctl -n hw.ncpu)",
+      "problemMatcher": [
+        "$msCompile"
+      ]
+    },
+    {
+      "label": "godot: build native",
+      "type": "shell",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "windows": {
-        "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } },
-        "command": "call \"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat\" >nul && pixi run -e build scons -C ${input:checkout} target=${input:target} windows_subsystem=console -j%NUMBER_OF_PROCESSORS%"
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": [
+              "/d",
+              "/c"
+            ]
+          }
+        },
+        "command": "call \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat\" >nul && pixi run -e build scons -C ${input:checkout} target=${input:target} windows_subsystem=console -j%NUMBER_OF_PROCESSORS%"
       },
       "linux": {
         "command": "pixi run -e build scons -C ${input:checkout} target=${input:target} -j$(nproc)"
@@ -49,12 +78,16 @@
       "osx": {
         "command": "pixi run -e build scons -C ${input:checkout} target=${input:target} -j$(sysctl -n hw.ncpu)"
       },
-      "problemMatcher": ["$msCompile", "$gcc"]
+      "problemMatcher": [
+        "$msCompile"
+      ]
     },
     {
       "label": "godot: clean",
       "type": "shell",
-      "options": { "cwd": "${workspaceFolder}" },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "command": "pixi run -e build scons -C ${input:checkout} target=${input:target} --clean",
       "problemMatcher": []
     }
